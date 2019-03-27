@@ -151,6 +151,6 @@ int main(int argc, char* argv[])
         	return 1;
     	}
 	if (input != NULL) 
-			delete input;
+		delete input;
 	return 0;
 }
