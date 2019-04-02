@@ -1,21 +1,21 @@
 class Matrix
 {
 	int* Mat;
-	const int Size, Rows, Columns;
+	const size_t Size, Rows, Columns;
 	class Matrix_Row
 	{
-		int size_R;
+		size_t size_R;
 		int* Mat_R; 
 	public:
-		Matrix_Row(int* a, int b) : Mat_R(a), size_R(b)
+		Matrix_Row(int* a, size_t b) : Mat_R(a), size_R(b)
 		{}
-		const int& operator [] (int index_row) const
+		const int& operator [] (size_t index_row) const
 		{
 			if (index_row >= size_R)
 				throw std::out_of_range("");
 			return Mat_R[index_row];
 		}
-		int& operator [] (int index_row)
+		int& operator [] (size_t index_row)
 		{
 			if (index_row >= size_R)
 				throw std::out_of_range("");
@@ -23,17 +23,17 @@ class Matrix
 		}
 	};
 public:
-	Matrix(int str, int col) : Rows(str), Columns(col), Size(str * col)
+	Matrix(size_t str, size_t col) : Rows(str), Columns(col), Size(str * col)
 	{
 		Mat = new int [Size];
 	}
-	const Matrix_Row operator [] (int index_row) const
+	const Matrix_Row operator [] (size_t index_row) const
 	{
 		if(index_row >= Rows)
 			throw std::out_of_range("");
 		return Matrix_Row(Mat + index_row * Columns, Columns);
 	}
-	Matrix_Row operator [] (int index_row)
+	Matrix_Row operator [] (size_t index_row)
 	{
 		if(index_row >= Rows)
 			throw std::out_of_range("");
