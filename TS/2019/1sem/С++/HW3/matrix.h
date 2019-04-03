@@ -60,11 +60,11 @@ public:
 	{
 		return !(*this == other);
 	}
-	int getRows() const
+	size_t getRows() const
 	{
 		return Rows;
 	}
-	int getColumns() const
+	size_t getColumns() const
 	{
 		return Columns;
 	}
