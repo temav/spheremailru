@@ -76,12 +76,10 @@ def get_info(id_):
         "Цена": price_
     }
     info_ = {**info_, **table}
-#     print('good job')
     return info_
-# def func(uid):
-#     return get_info(uid)
+
 def func_wrapper(uid):
-    res = get_info(uid)#func(uid) 
+    res = get_info(uid)
     with mutex:
         global n_processed
         n_processed.value += 1
