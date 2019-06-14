@@ -4,7 +4,7 @@
 class BigInt
 {
 private:
-  static const int BASE = 1000000000;
+	static const int BASE = 1000000000;
 	int size;
 	bool sign;
 	int* Biginteger;
