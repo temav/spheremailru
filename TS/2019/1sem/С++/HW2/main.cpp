@@ -22,12 +22,12 @@ enum Number_value : char {
 Token_value curr_tok = PRINT;
 int64_t number_value;
 
-int64_t expr(istream*, bool);
+int64_t expr(istringstream&, bool);
 
-Token_value get_token(istream* input) {
+Token_value get_token(istringstream& input) {
 	char ch;
 	do {
-		if (!input->get(ch))
+		if (!(input >> ch))
 			return curr_tok = END;
 	} while (ch != '\n' && isspace(ch));
 	switch (ch) {
@@ -43,15 +43,15 @@ Token_value get_token(istream* input) {
 		return curr_tok = Token_value(ch);
 	case NUM0: case NUM1: case NUM2: case NUM3: case NUM4:
 	case NUM5: case NUM6: case NUM7: case NUM8: case NUM9:
-		input->putback(ch);
-		*input >> number_value;
+		input.putback(ch);
+		input >> number_value;
 		return curr_tok = NUMBER;
 	default:
 		throw runtime_error("");
 	}
 }
 
-int64_t prim(istream* input, bool get) {
+int64_t prim(istringstream& input, bool get) {
 	if (get) {
 		get_token(input);
 	}
@@ -68,7 +68,7 @@ int64_t prim(istream* input, bool get) {
 	}
 }
 
-int64_t term(istream* input, bool get) {
+int64_t term(istringstream& input, bool get) {
 	int64_t left = prim(input, get);
 	for (; ; ) {
 		switch (curr_tok) {
@@ -89,7 +89,7 @@ int64_t term(istream* input, bool get) {
 	}
 }
 
-int64_t expr(istream* input, bool get) {
+int64_t expr(istringstream& input, bool get) {
 	int64_t left = term(input, get);
 	for (; ; ) {
 		switch (curr_tok) {
@@ -114,12 +114,12 @@ int main(int argc, char** argv) {
 	istringstream input(str);
 	try {
 		while (input) {
-			get_token(&input);
+			get_token(input);
 			if (curr_tok == END)
 				break;
 			if (curr_tok == PRINT)
 				throw runtime_error("");
-			cout << expr(&input, false) << endl;
+			cout << expr(input, false) << endl;
 		}
 		return 0;
 	}
