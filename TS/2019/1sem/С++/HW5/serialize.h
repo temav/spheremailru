@@ -38,13 +38,14 @@ private:
 	}
 
 	template <class T>
-	Error process(T x) {
+	Error process(T x)
+	{
 		return Error::CorruptedArchive;
 	}
 
 	template <class T, class... Args>
 	Error process(T&& x, Args&&... args) {
-		if (process(x) == Error::CorruptedArchive)
+		if (process(std::forward<T>(x)) == Error::CorruptedArchive)
 			return Error::CorruptedArchive;
 		else
 			return process(std::forward<Args>(args)...);
@@ -69,7 +70,7 @@ public:
 private:
 	std::istream& in_;
 
-	Error load(uint64_t& x) {
+	Error process(uint64_t& x) {
 		std::string str;
 		in_ >> str;
 		if (str.empty()) {
@@ -89,7 +90,7 @@ private:
 		return Error::NoError;
 	}
 
-	Error load(bool& x) {
+	Error process(bool& x) {
 		std::string text;
 		in_ >> text;
 
@@ -102,14 +103,9 @@ private:
 		return Error::NoError;
 	}
 
-	template <class T>
-	Error process(T& x) {
-		return load(x);
-	}
-
 	template <class T, class... Args>
 	Error process(T&& x, Args &&... args) {
-		if (load(x) == Error::CorruptedArchive)
+		if (process(std::forward<T>(x)) == Error::CorruptedArchive)
 			return Error::CorruptedArchive;
 		return process(std::forward<Args>(args)...);
 	}
